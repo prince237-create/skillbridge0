@@ -5,6 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { authConfig } from "./auth.config";
 
 // Validate OAuth environment variables
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
@@ -15,12 +16,9 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
-  pages: {
-    signIn: "/auth/login",
-    error: "/auth/error",
-  },
   providers: [
     ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
       ? [
@@ -76,20 +74,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.role = (user as any).role;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id as string;
-        (session.user as any).role = token.role;
-      }
-      return session;
-    },
-  },
 });
