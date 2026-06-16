@@ -1,6 +1,11 @@
 import OpenAI from "openai";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// Validate OpenAI configuration
+if (!process.env.OPENAI_API_KEY) {
+  console.warn("⚠️  OpenAI API key is not configured. AI features will not work.");
+}
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || "" });
 
 // ── Resume Analysis ──────────────────────────────────────────────────────────
 

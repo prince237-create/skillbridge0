@@ -3,6 +3,11 @@ import { auth } from "@/lib/auth";
 import { apiSuccess, apiError } from "@/lib/utils";
 import { v2 as cloudinary } from "cloudinary";
 
+// Validate Cloudinary configuration
+if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+  console.warn("⚠️  Cloudinary is not fully configured");
+}
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -13,6 +18,11 @@ export async function POST(req: NextRequest) {
   try {
     const session = await auth();
     if (!session?.user) return apiError("Unauthorized", 401);
+
+    // Validate Cloudinary is configured
+    if (!process.env.CLOUDINARY_CLOUD_NAME) {
+      return apiError("Cloudinary not configured", 500);
+    }
 
     const formData = await req.formData();
     const file = formData.get("file") as File;
