@@ -3,14 +3,15 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { apiSuccess, apiError } from "@/lib/utils";
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth();
     if (!session?.user) return apiError("Unauthorized", 401);
+    const { id } = await params;
     const body = await req.json();
     const { status, notes } = body;
     const application = await prisma.application.update({
-      where: { id: params.id },
+      where: { id },
       data: { status, notes },
       include: { job: { include: { company: true } }, user: true },
     });
@@ -20,11 +21,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 }
 
-export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth();
     if (!session?.user) return apiError("Unauthorized", 401);
-    await prisma.application.update({ where: { id: params.id }, data: { status: "WITHDRAWN" } });
+    const { id } = await params;
+    await prisma.application.update({ where: { id }, data: { status: "WITHDRAWN" } });
     return apiSuccess({ message: "Application withdrawn" });
   } catch {
     return apiError("Failed to withdraw application", 500);
