@@ -24,10 +24,10 @@ export default function JobSeekerDashboard() {
   const { data: stats, isLoading } = useQuery({ queryKey: ["stats", "seeker"], queryFn: fetchStats });
 
   const cards = [
-    { label: "Applications", value: stats?.totalApplications ?? 0, icon: Send, color: "blue", delta: "+3 this week" },
-    { label: "Interviews", value: stats?.interviews ?? 0, icon: TrendingUp, color: "green", delta: "2 upcoming" },
-    { label: "Saved Jobs", value: stats?.savedJobs ?? 0, icon: BookmarkCheck, color: "purple", delta: "View all" },
-    { label: "Profile Strength", value: `${stats?.profileStrength ?? 0}%`, icon: Star, color: "yellow", delta: "Complete profile" },
+    { label: "Applications", value: stats?.totalApplications ?? 0, icon: Send, color: "blue" as const, delta: "+3 this week" },
+    { label: "Interviews", value: stats?.interviews ?? 0, icon: TrendingUp, color: "green" as const, delta: "2 upcoming" },
+    { label: "Saved Jobs", value: stats?.savedJobs ?? 0, icon: BookmarkCheck, color: "purple" as const, delta: "View all" },
+    { label: "Profile Strength", value: `${stats?.profileStrength ?? 0}%`, icon: Star, color: "yellow" as const, delta: "Complete profile" },
   ];
 
   return (
