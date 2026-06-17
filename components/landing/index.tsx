@@ -137,9 +137,9 @@ export function PopularJobsSection() {
                 <span className="text-blue-400 font-semibold text-sm flex items-center gap-1">
                   <DollarSign className="w-3.5 h-3.5" />{job.salary}
                 </span>
-                <button className="text-xs bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 hover:border-blue-600 px-3 py-1.5 rounded-lg transition-all duration-200">
+                <Link href="/jobs" className="text-xs bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 hover:border-blue-600 px-3 py-1.5 rounded-lg transition-all duration-200 text-center block w-max">
                   Apply Now
-                </button>
+                </Link>
               </div>
             </motion.div>
           ))}
@@ -211,9 +211,9 @@ export function InternshipsSection() {
                 <div className="flex justify-between"><span>Stipend:</span> <span className="text-green-400">{intern.stipend}</span></div>
                 <div className="flex justify-between"><span>Deadline:</span> <span className="text-yellow-400">{intern.deadline}</span></div>
               </div>
-              <button className="w-full py-2 text-sm bg-purple-600/20 hover:bg-purple-600 text-purple-400 hover:text-white border border-purple-500/30 hover:border-purple-600 rounded-lg transition-all duration-200">
+              <Link href="/internships" className="w-full py-2 text-sm bg-purple-600/20 hover:bg-purple-600 text-purple-400 hover:text-white border border-purple-500/30 hover:border-purple-600 rounded-lg transition-all duration-200 text-center block">
                 Apply Now
-              </button>
+              </Link>
             </motion.div>
           ))}
         </div>
