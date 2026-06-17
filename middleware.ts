@@ -9,7 +9,7 @@ const AUTH_ONLY = ["/auth/login", "/auth/register"];
 
 export default auth((req) => {
   const { nextUrl, auth: session } = req;
-  const isLoggedIn = !!session;
+  const isLoggedIn = !!session?.user?.id;
   const isPublic = PUBLIC_ROUTES.some((r) => nextUrl.pathname === r || nextUrl.pathname.startsWith(r + "/"));
   const isAuthPage = AUTH_ONLY.includes(nextUrl.pathname);
 
