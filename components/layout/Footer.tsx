@@ -55,9 +55,9 @@ export function Footer() {
         <div className="border-t border-[#21262d] pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex flex-wrap gap-6 text-slate-400 text-sm">
-              <span className="flex items-center gap-2"><Mail className="w-4 h-4" /> hello@skillbridge.com</span>
-              <span className="flex items-center gap-2"><Phone className="w-4 h-4" /> +234 800 SKILLS</span>
-              <span className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Lagos, Nigeria</span>
+              <span className="flex items-center gap-2"><Mail className="w-4 h-4" /> fontah968@gmail.com</span>
+              <span className="flex items-center gap-2"><Phone className="w-4 h-4" /> +237 678 989 21</span>
+              <span className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Buea, Cameroon</span>
             </div>
             <p className="text-slate-500 text-sm">
               © {new Date().getFullYear()} SkillBridge. All rights reserved.
