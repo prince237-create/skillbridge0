@@ -19,6 +19,12 @@ export default auth((req) => {
     return NextResponse.redirect(new URL(dashboardUrl, nextUrl));
   }
 
+  if (isLoggedIn && nextUrl.pathname === "/dashboard") {
+    const role = (session.user as any)?.role;
+    const dashboardUrl = role === "EMPLOYER" ? "/dashboard/employer" : role === "ADMIN" ? "/dashboard/admin" : "/dashboard/job-seeker";
+    return NextResponse.redirect(new URL(dashboardUrl, nextUrl));
+  }
+
   if (!isLoggedIn && !isPublic) {
     const callbackUrl = encodeURIComponent(nextUrl.pathname + nextUrl.search);
     return NextResponse.redirect(new URL(`/auth/login?callbackUrl=${callbackUrl}`, nextUrl));

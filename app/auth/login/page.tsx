@@ -46,7 +46,7 @@ export default function LoginPage() {
         // and correctly routes the user to their respective dashboard (Seeker or Employer)
         const params = new URLSearchParams(window.location.search);
         const callbackUrl = params.get("callbackUrl");
-        window.location.href = callbackUrl || "/auth/login"; 
+        window.location.href = callbackUrl || "/dashboard"; 
       }
     } catch {
       toast.error("Something went wrong. Please try again.");
