@@ -42,8 +42,11 @@ export default function LoginPage() {
         toast.error("Invalid email or password");
       } else {
         toast.success("Welcome back!");
-        router.push("/dashboard/job-seeker");
-        router.refresh();
+        // Force a hard redirect so that Next.js middleware catches the new session cookie
+        // and correctly routes the user to their respective dashboard (Seeker or Employer)
+        const params = new URLSearchParams(window.location.search);
+        const callbackUrl = params.get("callbackUrl");
+        window.location.href = callbackUrl || "/auth/login"; 
       }
     } catch {
       toast.error("Something went wrong. Please try again.");

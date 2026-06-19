@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 // Validate Gemini configuration
 if (!process.env.GEMINI_API_KEY) {
   console.warn("⚠️  Gemini API key is not configured. AI features will not work.");
