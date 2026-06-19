@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
     if (exists) return apiError("Email already registered", 409);
 
     const hashedPassword = await bcrypt.hash(data.password, 12);
+    const isEmployer = data.role === "EMPLOYER";
 
     const user = await prisma.user.create({
       data: {
@@ -27,7 +28,19 @@ export async function POST(req: NextRequest) {
         email: data.email,
         password: hashedPassword,
         role: data.role,
-        profile: { create: { profileStrength: 20 } },
+        ...(isEmployer 
+          ? {
+              company: {
+                create: {
+                  name: `${data.name}'s Company`,
+                  slug: `${data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${Date.now()}`
+                }
+              }
+            } 
+          : {
+              profile: { create: { profileStrength: 20 } }
+            }
+        ),
       },
       select: { id: true, email: true, name: true, role: true },
     });

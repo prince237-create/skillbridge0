@@ -14,7 +14,9 @@ export default auth((req) => {
   const isAuthPage = AUTH_ONLY.includes(nextUrl.pathname);
 
   if (isLoggedIn && isAuthPage) {
-    return NextResponse.redirect(new URL("/dashboard/job-seeker", nextUrl));
+    const role = (session.user as any)?.role;
+    const dashboardUrl = role === "EMPLOYER" ? "/dashboard/employer" : role === "ADMIN" ? "/dashboard/admin" : "/dashboard/job-seeker";
+    return NextResponse.redirect(new URL(dashboardUrl, nextUrl));
   }
 
   if (!isLoggedIn && !isPublic) {

@@ -63,7 +63,11 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-3">
             {session ? (
               <Link
-                href="/dashboard/job-seeker"
+                href={
+                  (session.user as any)?.role === "EMPLOYER" ? "/dashboard/employer" :
+                  (session.user as any)?.role === "ADMIN" ? "/dashboard/admin" : 
+                  "/dashboard/job-seeker"
+                }
                 className="btn-primary text-sm"
               >
                 Dashboard

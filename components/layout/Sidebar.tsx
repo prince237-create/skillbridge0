@@ -55,8 +55,10 @@ export function Sidebar({ role = "JOB_SEEKER" }: SidebarProps) {
   const { data: session } = useSession();
   const [collapsed, setCollapsed] = useState(false);
 
+  const userRole = (session?.user as any)?.role || role;
+
   const navItems =
-    role === "EMPLOYER" ? employerNav : role === "ADMIN" ? adminNav : jobSeekerNav;
+    userRole === "EMPLOYER" ? employerNav : userRole === "ADMIN" ? adminNav : jobSeekerNav;
 
   return (
     <motion.aside
@@ -106,7 +108,7 @@ export function Sidebar({ role = "JOB_SEEKER" }: SidebarProps) {
               <div className="min-w-0">
                 <div className="text-white text-sm font-semibold truncate">{session?.user?.name || "User"}</div>
                 <div className="text-slate-500 text-xs truncate">
-                  {role === "ADMIN" ? "Admin" : role === "EMPLOYER" ? "Employer" : "Job Seeker"}
+                  {userRole === "ADMIN" ? "Admin" : userRole === "EMPLOYER" ? "Employer" : "Job Seeker"}
                 </div>
               </div>
             </div>

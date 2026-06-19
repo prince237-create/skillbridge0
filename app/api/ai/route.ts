@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
-import { analyzeResume, calculateJobMatch, analyzeSkillGap, careerChatCompletion } from "@/lib/openai";
+import { analyzeResume, calculateJobMatch, analyzeSkillGap, careerChatCompletion, generateJobDescription } from "@/lib/gemini";
 import { apiSuccess, apiError } from "@/lib/utils";
 import { prisma } from "@/lib/prisma";
 
@@ -44,6 +44,26 @@ export async function POST(req: NextRequest) {
           });
         }
         return apiSuccess(result);
+      }
+
+      case "generate-job": {
+        const { title, skills, level, type, location, company } = body;
+        if (!title) return apiError("Title is required", 400);
+        
+        try {
+          const result = await generateJobDescription({
+            title,
+            company: company || "",
+            skills: skills || [],
+            level,
+            type,
+            location: location || "",
+          });
+          return apiSuccess(result);
+        } catch (e) {
+          console.error(e);
+          return apiError("AI generation failed", 500);
+        }
       }
 
       case "skill-gap": {
